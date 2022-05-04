@@ -3,16 +3,17 @@ const collegeModel = require("../models/collegeModel");
 
 const createCollege = async function (req, res) {
   try {
-  let data = req.body;
+
+  let{...data} = req.body;
 
   if (Object.keys(data).length == 0) {
     return res.status(400).send({ status: false, msg: "Data is required to add the college details" });
   }
   if (!data.name) {
-    res.send({ status: false, msg: "name is requreid" });
+   return res.status(400).send({ status: false, msg: "name is requreid" });
   }
   if (!data.fullName) {
-    res.send({ status: false, msg: "fullname is requreid" });
+    return res.status(400).send({ status: false, msg: "fullname is requreid" });
   }
   
 
@@ -32,6 +33,30 @@ res.status(201).send({ status: true, data: college });
 }
 }
 
+
+
+const getColleges =async function(req,res){
+  try{
+    if (Object.keys(data).length == 0) {
+      return res.status(400).send({ status: false, msg: "Add  college details to find interns details" })
+    }
+    let collegename= req.query.collegeName
+let collegeId= await collegeModel.findOne({name:collegename}).select({_id:1})
+if(!collegeId) return res.status(404).send({ status: false, msg: "no  college details with particular name exist" })
+collegeId= collegeId._id.tostring() 
+let part1 = await collegeModel.findOne({name:collegename}).select({_id:0, name:1, fullName :1,logoLink :1})
+let part2 = await internModel.find({collegeId:collegeId}).select({ name:1, email :1,mobile:1})
+  if(part2.length == 0) return res.status(400).send({ status: false, msg: "No interns  at this particular Moment" })
+let temp = part1.toJSON()
+temp["interests"]= [...part2]
+
+return res.status(200).send({ status: true, data:temp})
+  }
+  catch(err){
+    return res.status(500).send({ status: false, msg :err.message})
+  }
+}
+module.exports.getColleges= getColleges
 
 
 

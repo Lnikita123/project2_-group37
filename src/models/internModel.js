@@ -11,16 +11,24 @@ const internSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: "mongoose-type-email",
-        required: true,
-        unique:true
+        type:String,
+        trim:true,
+        unique:true,
+        required:[true,`Email address is required`]
+
     },
    
     mobile:{
-        type: "validate-phone-number-node-js",
+        type: Number,
         required:true,
-        maxlength:10,
-        unique:true
+        unique:true,
+        validate:{
+            validator:function(mobile){
+                return /^\d{10}$/.test(mobile)
+            },message:'please fill a valid Mobile Number',isAsync:false
+        }
+
+       
     },
     collegeId: {
         type: ObjectId,         
