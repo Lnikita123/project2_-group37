@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 let ObjectId = mongoose.Schema.Types.ObjectId
-let email = require("mongoose-type-email")
-let phone = require("validate-phone-number-node-js")
+//const email = require("mongoose-type-email");
+//const phone = require("validate-phone-number-node-js");
 
 
 const internSchema = new mongoose.Schema({ 
@@ -11,13 +11,13 @@ const internSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: email,
+        type: "mongoose-type-email",
         required: true,
         unique:true
     },
    
     mobile:{
-        type: phone,
+        type: "validate-phone-number-node-js",
         required:true,
         maxlength:10,
         unique:true
