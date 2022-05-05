@@ -1,47 +1,30 @@
-const mongoose = require('mongoose');
-let ObjectId = mongoose.Schema.Types.ObjectId
-//const email = require("mongoose-type-email");
-//const phone = require("validate-phone-number-node-js");
+const mongoose = require('mongoose')
+const ObjectId=mongoose.Schema.ObjectId
 
 
-const internSchema = new mongoose.Schema({ 
-
+const interSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
     email: {
-        type:String,
-        trim:true,
-        unique:true,
-        required:[true,`Email address is required`]
-
+        type: String,
+        required: true,
+        unique: true
     },
-   
-    mobile:{
-        type: Number,
-        required:true,
-        unique:true,
-        validate:{
-            validator:function(mobile){
-                return /^\d{10}$/.test(mobile)
-            },message:'please fill a valid Mobile Number',isAsync:false
-        }
-
-       
+    mobile: {
+        type: String,
+        required: true,
+        unique: true
     },
     collegeId: {
-        type: ObjectId,         
-        ref: 'college',
-        required:true 
+        type:ObjectId,
+        ref: 'College'
     },
-  
     isDeleted: {
         type: Boolean,
         default: false
-      
     }
-    
-}, { timestamps: true })
+},{timeseries:true})
 
-module.exports = mongoose.model('intern', internSchema)
+module.exports=mongoose.model('Intern',interSchema)

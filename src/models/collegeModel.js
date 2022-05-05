@@ -12,14 +12,15 @@ const collegeSchema = new mongoose.Schema({
         required: true
     },
     logoLink: {
-        type:String,
-        required:true
+        type: String,
+        required: true,
+        
     },
     isDeleted: {
         type: Boolean,
         default: false
     }
-   
+
 }, { timestamps: true })
 
-module.exports = mongoose.model('college', collegeSchema)
+module.exports = mongoose.model('College', collegeSchema)
