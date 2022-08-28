@@ -50,20 +50,20 @@ const getcollege = async function (req, res) {
     try {
         let collegename = req.query;
 
-        if (Object.keys(collegename).length == 0 || (!(Object.values(collegename))>0)) {
+          if (!isValid(collegename)) {
            return res.status(400).send({ status: false, msg: "Please provide name of the college" })
         }
 
-        let name1 = Object.values(collegename)
-        let college = await collegeModel.findOne({ name: name1 })
+        
+        let college = await collegeModel.findOne({ name: collegename.name })
 
         if (!college) {
             return res.status(404).send({ status: false, msg: "no data found" })
         }
 
-        let colle_id = college._id.toString()
+      
 
-        let studentlist = await internModel.find({ collegeId: colle_id }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
+        let studentlist = await internModel.find({ collegeId: college }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
         let dataa = {
             "name": college.name,
             "fullName": college.fullName,
